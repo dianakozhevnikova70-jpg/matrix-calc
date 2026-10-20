@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Расчёт Психоматрицы Пифагора</title>
+  <title>Расчёт Психоматрицы Пифагора (ЦПА Александрова)</title>
   <style>
     :root {
       --bg-color: #fdf8f2;
@@ -138,7 +138,7 @@
   <h1>🍁 Психоматрица по Дате Рождения</h1>
   
   <div class="input-group">
-    <input type="date" id="birthdate" value="1995-08-18">
+    <input type="date" id="birthdate" value="1982-06-04">
     <button onclick="calculateMatrix()">Рассчитать</button>
   </div>
 
@@ -186,14 +186,14 @@
 
     <h3 style="color: var(--primary);">Линии и показатели:</h3>
     <div class="lines-list">
-      <div class="line-item"><span>Самооценка:</span> <span class="line-val" id="l_self">-</span></div>
-      <div class="line-item"><span>Быт / Финансы:</span> <span class="line-val" id="l_money">-</span></div>
-      <div class="line-item"><span>Талант:</span> <span class="line-val" id="l_talent">-</span></div>
-      <div class="line-item"><span>Целеустремлённость:</span> <span class="line-val" id="l_goal">-</span></div>
-      <div class="line-item"><span>Семейность:</span> <span class="line-val" id="l_family">-</span></div>
-      <div class="line-item"><span>Стабильность:</span> <span class="line-val" id="l_stab">-</span></div>
-      <div class="line-item"><span>Духовность:</span> <span class="line-val" id="l_spirit">-</span></div>
-      <div class="line-item"><span>Темперамент:</span> <span class="line-val" id="l_temp">-</span></div>
+      <div class="line-item"><span>Самооценка (1-2-3):</span> <span class="line-val" id="l_self">-</span></div>
+      <div class="line-item"><span>Быт / Финансы (4-5-6):</span> <span class="line-val" id="l_money">-</span></div>
+      <div class="line-item"><span>Талант (7-8-9):</span> <span class="line-val" id="l_talent">-</span></div>
+      <div class="line-item"><span>Целеустремлённость (1-4-7):</span> <span class="line-val" id="l_goal">-</span></div>
+      <div class="line-item"><span>Семейность (2-5-8):</span> <span class="line-val" id="l_family">-</span></div>
+      <div class="line-item"><span>Стабильность (3-6-9):</span> <span class="line-val" id="l_stab">-</span></div>
+      <div class="line-item"><span>Духовность (1-5-9):</span> <span class="line-val" id="l_spirit">-</span></div>
+      <div class="line-item"><span>Темперамент (3-5-7):</span> <span class="line-val" id="l_temp">-</span></div>
     </div>
   </div>
 </div>
@@ -205,63 +205,71 @@
 
     const [yearStr, monthStr, dayStr] = input.split('-');
 
-    const fullDateDigits = `${dayStr}${monthStr}${yearStr}`;
+    // Запись даты без ведущих нулей по Александрову (например, 4 6 1982)
+    const dayNum = parseInt(dayStr, 10);
+    const monthNum = parseInt(monthStr, 10);
+    const yearNum = parseInt(yearStr, 10);
+
+    const dayFormatted = String(dayNum);
+    const monthFormatted = String(monthNum);
+    const yearFormatted = String(yearNum);
+
+    const dateDigitsStr = `${dayFormatted}${monthFormatted}${yearFormatted}`;
     
-    // 1. Первое рабочее число
+    // 1. I дополнительное число: сумма всех цифр даты без ведущих нулей
     let w1 = 0;
-    for (let char of fullDateDigits) {
+    for (let char of dateDigitsStr) {
       w1 += parseInt(char, 10);
     }
 
-    // 2. Второе рабочее число
+    // 2. II дополнительное число: сумма цифр I числа
     let w2 = 0;
     for (let char of String(w1)) {
       w2 += parseInt(char, 10);
     }
 
-    // 3. Третье рабочее число (первая отличная от 0 цифра дня)
-    const dayClean = dayStr.replace(/^0+/, '');
-    const firstDigitOfDay = dayClean.length > 0 ? parseInt(dayClean, 10) : 0;
-    const w3 = w1 - (2 * firstDigitOfDay);
+    // 3. III дополнительное число: I число минус (2 * первая цифра даты)
+    const firstDigitOfDate = parseInt(dayFormatted, 10);
+    const w3 = w1 - (2 * firstDigitOfDate);
 
-    // 4. Четвёртое рабочее число
+    // 4. IV дополнительное число: сумма цифр III числа
     let w4 = 0;
     for (let char of String(Math.abs(w3))) {
       w4 += parseInt(char, 10);
     }
 
-    // Все цифры вместе (оставляем строго цифры 1-9)
-    const allDigitsStr = `${fullDateDigits}${w1}${w2}${w3}${w4}`.replace(/[^1-9]/g, '');
+    // Рабочий ряд цифр (ноль в сетку психоматрицы не входит)
+    const allDigitsStr = `${dateDigitsStr}${w1}${w2}${w3}${w4}`.replace(/[^1-9]/g, '');
 
-    // Подсчёт количества цифр
+    // Подсчёт количества цифр от 1 до 9
     const counts = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
     for (let char of allDigitsStr) {
       const num = parseInt(char, 10);
       if (num >= 1 && num <= 9) counts[num]++;
     }
 
-    // Дополнительные числа без запятых с увеличенным интервалом между 2 и 3 числом
+    // Дополнительные числа без запятых с увеличенным интервалом
     document.getElementById('workNumbers').innerHTML = 
       `<strong>Дополнительные числа:</strong> ${w1} ${w2}<span class="extra-space"></span>${w3} ${w4}`;
 
-    // Заполнение ячеек (111, 22 и т.д.)
+    // Заполнение ячеек квадрата (1, 222, 33 и т.д.)
     const formatCell = (num) => counts[num] > 0 ? String(num).repeat(counts[num]) : 'нет';
 
     for (let i = 1; i <= 9; i++) {
       document.getElementById(`c${i}`).innerText = formatCell(i);
     }
 
-    // Точный расчёт показателей линий
-    document.getElementById('l_self').innerText = counts[1] + counts[2] + counts[3];
-    document.getElementById('l_money').innerText = counts[4] + counts[5] + counts[6];
-    document.getElementById('l_talent').innerText = counts[7] + counts[8] + counts[9];
+    // Расчёт показателей линий (сумма количества цифр)
+    document.getElementById('l_self').innerText = counts[6] + counts[7] + counts[8];
+    document.getElementById('l_money').innerText = counts[9] + counts[10] + counts[11];
+    document.getElementById('l_talent').innerText = counts[12] + counts[13] + counts[14];
 
-    document.getElementById('l_goal').innerText = counts[1] + counts[4] + counts[7];
-    document.getElementById('l_family').innerText = counts[2] + counts[5] + counts[8];
-    document.getElementById('l_stab').innerText = counts[3] + counts[6] + counts[9];
+    document.getElementById('l_goal').innerText = counts[6] + counts[9] + counts[12];
+    document.getElementById('l_family').innerText = counts[7] + counts[10] + counts[13];
+    document.getElementById('l_stab').innerText = counts[8] + counts[11] + counts[14];
 
-    document.getElementById('l_spirit').innerText = counts[1] + counts[5] + counts[9];
-    document.getElementById('l_temp').innerText = counts[3] + counts[5] + counts[7];
+    document.getElementById('l_spirit').innerText = counts[6] + counts[10] + counts[14];
+    document.getElementById('l_temp').innerText = counts[8] + counts[10] + counts[12];
 
     document.getElementById('resultsBlock').style.display = 'block';
   }
