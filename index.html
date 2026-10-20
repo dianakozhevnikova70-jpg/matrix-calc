@@ -81,7 +81,7 @@
     }
     .extra-space {
       display: inline-block;
-      width: 20px; /* Увеличенный отступ между 2-м и 3-м числом */
+      width: 24px; /* Увеличенный отступ между 2-м и 3-м числом */
     }
     .matrix-grid {
       display: grid;
@@ -219,9 +219,9 @@
       w2 += parseInt(char, 10);
     }
 
-    // 3. Третье рабочее число
+    // 3. Третье рабочее число (первая отличная от 0 цифра дня)
     const dayClean = dayStr.replace(/^0+/, '');
-    const firstDigitOfDay = parseInt(dayClean, 10);
+    const firstDigitOfDay = dayClean.length > 0 ? parseInt(dayClean, 10) : 0;
     const w3 = w1 - (2 * firstDigitOfDay);
 
     // 4. Четвёртое рабочее число
@@ -230,8 +230,8 @@
       w4 += parseInt(char, 10);
     }
 
-    // Все цифры вместе (без нулей)
-    const allDigitsStr = `${fullDateDigits}${w1}${w2}${w3}${w4}`.replace(/0/g, '');
+    // Все цифры вместе (оставляем строго цифры 1-9)
+    const allDigitsStr = `${fullDateDigits}${w1}${w2}${w3}${w4}`.replace(/[^1-9]/g, '');
 
     // Подсчёт количества цифр
     const counts = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
