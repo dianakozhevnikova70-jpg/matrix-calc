@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Расчёт Психоматрицы Пифагора</title>
+  <style>
+    :root {
+      --bg-color: #f4f6f9;
+      --card-bg: #ffffff;
+      --primary: #4a6fa5;
+      --accent: #ff6b6b;
+      --text: #333333;
+      --border: #e2e8f0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: var(--card-bg);
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+    h1 {
+      text-align: center;
+      color: var(--primary);
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+      justify-content: center;
+    }
+    input[type="date"] {
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+    }
+    button {
+      padding: 12px 24px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #3b5984;
+    }
+    .results {
+      display: none;
+    }
+    .work-numbers {
+      background: #eef2f7;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+    .matrix-cell {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 15px 10px;
+      text-align: center;
+    }
+    .cell-title {
+      font-size: 12px;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .cell-value {
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--primary);
+      margin-top: 5px;
+      min-height: 24px;
+    }
+    .lines-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .line-item {
+      background: #f8fafc;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      border-left: 3px solid var(--primary);
+    }
+    .line-val {
+      font-weight: bold;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>✨ Психоматрица по Дате Рождения</h1>
+  
+  <div class="input-group">
+    <input type="date" id="birthdate" value="1995-08-18">
+    <button onclick="calculateMatrix()">Рассчитать</button>
+  </div>
+
+  <div class="results" id="resultsBlock">
+    <div class="work-numbers" id="workNumbers"></div>
+
+    <div class="matrix-grid">
+      <div class="matrix-cell">
+        <div class="cell-title">1. Характер</div>
+        <div class="cell-value" id="c1">-</div>
+      </div>
+      <div class="matrix-cell">
+        <div class="cell-title">4. Здоровье</div>
+        <div class="cell-value" id="c4">-</div>
+      </div>
+      <div class="matrix-cell">
+        <div class="cell-title">7. Удача</div>
+        <div class="cell-value" id="c7">-</div>
+      </div>
+      <div class="matrix-cell">
+        <div class="cell-title">2. Энергия</div>
+        <div class="cell-value" id="c2">-</div>
+      </div>
+      <div class="matrix-cell">
+        <div class="cell-title">5. Логика</div>
+        <div class="cell-value" id="c5">-</div>
+      </div>
+      <div class="matrix-cell">
+        <div class="cell-title">8. Долг</div>
+        <div class="cell-value" id="c8">-</div>
+      </div>
+      <div class="matrix-cell">
+        <div class="cell-title">3. Интерес</div>
+        <div class="cell-value" id="c3">-</div>
+      </div>
+      <div class="matrix-cell">
+        <div class="cell-title">6. Труд</div>
+        <div class="cell-value" id="c6">-</div>
+      </div>
+      <div class="matrix-cell">
+        <div class="cell-title">9. Память</div>
+        <div class="cell-value" id="c9">-</div>
+      </div>
+    </div>
+
+    <h3>Линии и показатели:</h3>
+    <div class="lines-list">
+      <div class="line-item"><span>Самооценка:</span> <span class="line-val" id="l_self">-</span></div>
+      <div class="line-item"><span>Быт / Финансы:</span> <span class="line-val" id="l_money">-</span></div>
+      <div class="line-item"><span>Талант:</span> <span class="line-val" id="l_talent">-</span></div>
+      <div class="line-item"><span>Целеустремлённость:</span> <span class="line-val" id="l_goal">-</span></div>
+      <div class="line-item"><span>Семейность:</span> <span class="line-val" id="l_family">-</span></div>
+      <div class="line-item"><span>Стабильность:</span> <span class="line-val" id="l_stab">-</span></div>
+      <div class="line-item"><span>Духовность:</span> <span class="line-val" id="l_spirit">-</span></div>
+      <div class="line-item"><span>Темперамент:</span> <span class="line-val" id="l_temp">-</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function calculateMatrix() {
+    const input = document.getElementById('birthdate').value;
+    if (!input) return;
+
+    const [yearStr, monthStr, dayStr] = input.split('-');
+    const day = parseInt(dayStr, 10);
+    const month = parseInt(monthStr, 10);
+    const year = parseInt(yearStr, 10);
+
+    const fullDateDigits = `${dayStr}${monthStr}${yearStr}`;
+    
+    let w1 = 0;
+    for (let char of fullDateDigits) {
+      w1 += parseInt(char, 10);
+    }
+
+    let w2 = 0;
+    for (let char of String(w1)) {
+      w2 += parseInt(char, 10);
+    }
+
+    const firstNonZeroDayDigit = parseInt(dayStr.replace(/^0+/, ''), 10);
+    const w3 = w1 - (2 * firstNonZeroDayDigit);
+
+    let w4 = 0;
+    for (let char of String(Math.abs(w3))) {
+      w4 += parseInt(char, 10);
+    }
+
+    const allDigitsStr = (fullDateDigits + w1 + w2 + w3 + w4).replace(/0/g, '');
+
+    const counts = {};
+    for (let i = 1; i <= 9; i++) counts[i] = 0;
+    for (let char of allDigitsStr) {
+      const num = parseInt(char, 10);
+      if (num >= 1 && num <= 9) counts[num]++;
+    }
+
+    document.getElementById('workNumbers').innerHTML = 
+      `<strong>Рабочие числа:</strong> ${w1}, ${w2}, ${w3}, ${w4}`;
+
+    const formatCell = (num) => counts[num] > 0 ? String(num).repeat(counts[num]) : 'нет';
+
+    for (let i = 1; i <= 9; i++) {
+      document.getElementById(`c${i}`).innerText = formatCell(i);
+    }
+
+    document.getElementById('l_self').innerText = counts[1] + counts[2] + counts[3];
+    document.getElementById('l_money').innerText = counts[4] + counts[5] + counts[6];
+    document.getElementById('l_talent').innerText = counts[7] + counts[8] + counts[9];
+    document.getElementById('l_goal').innerText = counts[1] + counts[4] + counts[7];
+    document.getElementById('l_family').innerText = counts[2] + counts[5] + counts[8];
+    document.getElementById('l_stab').innerText = counts[3] + counts[6] + counts[9];
+    document.getElementById('l_spirit').innerText = counts[1] + counts[5] + counts[9];
+    document.getElementById('l_temp').innerText = counts[3] + counts[5] + counts[7];
+
+    document.getElementById('resultsBlock').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
