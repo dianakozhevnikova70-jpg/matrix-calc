@@ -186,14 +186,14 @@
 
     <h3 style="color: var(--primary);">Линии и показатели:</h3>
     <div class="lines-list">
-      <div class="line-item"><span>Самооценка (1-2-3):</span> <span class="line-val" id="l_self">-</span></div>
-      <div class="line-item"><span>Быт / Финансы (4-5-6):</span> <span class="line-val" id="l_money">-</span></div>
-      <div class="line-item"><span>Талант (7-8-9):</span> <span class="line-val" id="l_talent">-</span></div>
-      <div class="line-item"><span>Целеустремлённость (1-4-7):</span> <span class="line-val" id="l_goal">-</span></div>
-      <div class="line-item"><span>Семейность (2-5-8):</span> <span class="line-val" id="l_family">-</span></div>
-      <div class="line-item"><span>Стабильность (3-6-9):</span> <span class="line-val" id="l_stab">-</span></div>
-      <div class="line-item"><span>Духовность (1-5-9):</span> <span class="line-val" id="l_spirit">-</span></div>
-      <div class="line-item"><span>Темперамент (3-5-7):</span> <span class="line-val" id="l_temp">-</span></div>
+      <div class="line-item"><span>Самооценка:</span> <span class="line-val" id="l_self">-</span></div>
+      <div class="line-item"><span>Быт / Финансы:</span> <span class="line-val" id="l_money">-</span></div>
+      <div class="line-item"><span>Талант:</span> <span class="line-val" id="l_talent">-</span></div>
+      <div class="line-item"><span>Целеустремлённость:</span> <span class="line-val" id="l_goal">-</span></div>
+      <div class="line-item"><span>Семейность:</span> <span class="line-val" id="l_family">-</span></div>
+      <div class="line-item"><span>Стабильность:</span> <span class="line-val" id="l_stab">-</span></div>
+      <div class="line-item"><span>Духовность:</span> <span class="line-val" id="l_spirit">-</span></div>
+      <div class="line-item"><span>Темперамент:</span> <span class="line-val" id="l_temp">-</span></div>
     </div>
   </div>
 </div>
@@ -227,7 +227,7 @@
       w2 += parseInt(char, 10);
     }
 
-    // 3. III дополнительное число: берём ровно ПЕРВУЮ цифру дня (для 13 — это "1")
+    // 3. III дополнительное число: перв. цифра дня
     const firstDigitOfDate = parseInt(dayFormatted[0], 10);
     const w3 = w1 - (2 * firstDigitOfDate);
 
